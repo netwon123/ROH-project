@@ -1,0 +1,23 @@
+library(ggplot2)
+setwd('G:/中期/肃南牦牛项目/pca')
+pca <- read.table("pca.txt",sep = "\t",header = T)
+pdf('pca.pdf',width = 10,height = 10)
+ggplot(pca, aes(x=pca1,y=pca2)) +
+  geom_point(aes(color=pop),size=5,alpha = 0.7)+
+  labs(x="PC1(2.5397%)",y="PC2(1.8990%)")+theme_bw()+theme(legend.title = element_blank())+scale_color_manual(values = (1:6))+theme(panel.grid=element_blank())+theme(text=element_text(size=16))
+dev.off()
+
+
+library(scatterplot3d)
+
+
+pca$pop=factor(pca$pop,levels = c('BZ','GN','JC','JL','LWQ','SB','TZ_L','TZ_S','WY','XD'))
+mycolur=c(rep('Pink',8),rep('green',10),rep('blue',9),rep('DarkKhaki',13),rep('red',10),rep('Chocolate',10),rep('DeepSkyBlue',10),rep('Turquoise',10),rep('BlueViolet',8),rep('black',8))
+#pdf('pca3d.pdf')
+plot3d=with(pca,scatterplot3d(pca1,pca2,pca3,color=mycolur,cex.symbols = 2, font.lab = 2, font.axis = 2,pch=20,xlab='PC1(6.2886%)',ylab = 'PC2(2.8471%)',zlab = 'PC3(2.6299%)'))
+
+
+legend('topright',legend = unique((pca$pop)),col = c('Pink','green','blue','DarkKhaki','red','Chocolate','DeepSkyBlue','Turquoise','BlueViolet','black','orange','DarkRed'),pch=20,bg = "white",xpd = TRUE,inset = 0.01,bty = 'n',cex = rel(0.5),xjust = 1,yjust=0)
+
+
+dev.off()

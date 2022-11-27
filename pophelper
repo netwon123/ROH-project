@@ -1,0 +1,28 @@
+setwd('G:/中期/肃南牦牛项目/STRUCTURE/')
+library(pophelper)
+
+
+sfile = paste0("5yak.",2:5,".Q")
+slist <- readQ(sfile,indlabfromfile = T)
+sample <- read.table("sample.txt",header = F,sep = "\t",stringsAsFactors = F)[,1]
+for(i in 1:length(slist)){
+  rownames(slist[[i]]) <-sample
+}
+plotQ(slist, imgoutput = "join",imgtype = "pdf",width = 20,height = 1.2,
+      showindlab = T,useindlab = T,indlabhjust = 0.5,indlabangle = 0,
+      indlabsize = 1.2,sortind = "all",sharedindlab = F,
+      panelspacer = 0.02, indlabspacer = 0,indlabcol = "black",
+      showtitle = T,titlelab = "",titlecol = "black",
+      titlehjust = 0.5,showsp = T,
+      sppos = "left",splab = paste0("K=",2:10),splabangle = 180,dpi = 600,
+      outputfilename = paste0("admixture_barplot"),units = "cm",
+      exportplot = T,exportpath = getwd())
+##draw by group
+pop <- read.table("group.txt",header = T,sep = "\t",stringsAsFactors = F,row.names = 1)
+plotQ(slist,imgoutput = "join",imgtype = "pdf",height = 1.2,width = 20,
+      showindlab = F,useindlab = T,sharedindlab = T,
+      showsp = T,sppos ="left",splab= paste0("K=",2:5),splabangle = 180,
+      showlegend = F,ordergrp = T,grplab = pop,
+      
+      outputfilename = paste0("admixture_barplot_pop"),units = "cm",
+      exportpath = getwd())
